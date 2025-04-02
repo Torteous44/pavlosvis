@@ -1,4 +1,5 @@
 import './Hero.css';
+import { HeroVisual } from './HeroVisual';
 
 export function Hero() {
   return (
@@ -15,7 +16,7 @@ export function Hero() {
         </a>
       </div>
       <div className="hero__visual" aria-hidden="true">
-        <img src="/assets/hero.avif" alt="" className="hero__image" />
+        <HeroVisual />
       </div>
     </section>
   );
