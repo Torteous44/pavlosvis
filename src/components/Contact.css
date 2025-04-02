@@ -1,0 +1,118 @@
+.contact {
+  padding: 4rem 0;
+  color: #fff;
+  max-width: min(100%, 800px);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.contact-content {
+  width: 100%;
+}
+
+.contact-title {
+  font-size: 2rem;
+  font-weight: 400;
+  color: #fff;
+  letter-spacing: -0.01em;
+  margin-bottom: 1.5rem;
+}
+
+.contact-description {
+  font-size: 1rem;
+  line-height: 1.65;
+  margin-bottom: 3rem;
+  color: rgba(255, 255, 255, 0.95);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  max-width: 100%;
+}
+
+.contact-profiles {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.contact-profile {
+  width: 100%;
+}
+
+.profile-name {
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: #fff;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.01em;
+}
+
+.profile-bio {
+  font-size: 1rem;
+  line-height: 1.65;
+  margin-bottom: 0.75rem;
+  color: rgba(255, 255, 255, 0.95);
+  font-weight: 400;
+}
+
+.profile-link {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.95);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+}
+
+.profile-link .arrow {
+  margin-left: 0.5rem;
+  font-size: 1rem;
+}
+
+
+@media (max-width: 1024px) {
+  .contact-title {
+    font-size: 1.9rem;
+  }
+  
+  .contact-description {
+    font-size: 1rem;
+  }
+  
+  .profile-name {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .contact {
+    padding-top: 3rem;
+  }
+  
+  .contact-title {
+    font-size: 1.7rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .contact-description {
+    font-size: 0.95rem;
+    margin-bottom: 2.5rem;
+    line-height: 1.6;
+  }
+  
+  .contact-profiles {
+    gap: 2.5rem;
+  }
+  
+  .profile-name {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .profile-bio {
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .profile-link {
+    font-size: 0.95rem;
+  }
+} 

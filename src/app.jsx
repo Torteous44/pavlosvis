@@ -4,6 +4,7 @@ import './styles/global.css';
 import { Hero } from './components/Hero';
 import { Content } from './components/Content';
 import { Paper } from './components/Paper';
+import { Contact } from './components/Contact';
 
 export function App() {
   return (
@@ -13,6 +14,7 @@ export function App() {
         <main>
           <Content />
           <Paper />
+          <Contact />
         </main>
       </div>
     </>

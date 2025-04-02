@@ -7,7 +7,7 @@ export function Hero() {
         <h1 className="hero__title">
           A marketplace for all tasks that require intelligence.
         </h1>
-        <a href="#" className="hero__cta">
+        <a href="mailto:hello@pavlosnetwork.com" className="hero__cta">
           Get in touch
           <span className="hero__cta-icon">
             <img src="/assets/upRight.svg" alt="" aria-hidden="true" />
