@@ -358,7 +358,8 @@ export function HeroVisual() {
         height: '100%', 
         backgroundColor: '#191919', // Explicitly set matching background color
         clipPath: 'polygon(50% 0%, 0% 54%, 0% 55%, 40% 100%, 90% 100%, 100% 90%, 42% 30%, 70% 0%, 20% 0%)',
-        borderRadius: '4px' // Add subtle rounding to any visible corners
+        borderRadius: '25px', // Add subtle rounding to any visible corners
+        boxShadow: 'inset 0 0 15px 15px rgba(25, 25, 25, 0.8)'
       }}
     />
   );
