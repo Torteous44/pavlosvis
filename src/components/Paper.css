@@ -1,0 +1,153 @@
+.paper {
+  padding: 4rem 0;
+  color: #fff;
+  max-width: min(100%, 800px);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.paper-content {
+  width: 100%;
+}
+
+.divider {
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.3);
+  width: 100%;
+  margin-bottom: 4rem;
+}
+
+.paper-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.paper-title {
+  font-size: 2rem;
+  font-weight: 400;
+  color: #fff;
+  letter-spacing: -0.01em;
+  margin-right: 0.75rem;
+  margin-bottom: 0;
+}
+
+.paper-download {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: transparent;
+  border-radius: 5px;
+  color: #fff;
+  transition: all 0.3s ease;
+}
+
+.paper-download:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.paper-description {
+  font-size: 1rem;
+  line-height: 1.65;
+  margin-bottom: 4rem;
+  color: rgba(255, 255, 255, 0.95);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  max-width: 100%;
+}
+
+.paper-links {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+
+}
+
+.paper-link {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.link-title {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.95);
+  font-weight: 400;
+}
+
+.link-url {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.95);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  margin-right: rem;
+}
+
+.arrow {
+  margin-left: 0.5rem;
+  font-size: 1rem;
+}
+
+@media (max-width: 1024px) {
+  .paper-title {
+    font-size: 1.9rem;
+  }
+  
+  .paper-description {
+    font-size: 1rem;
+  }
+  
+  .paper-download {
+    width: 2.25rem;
+    height: 2.25rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .paper {
+    padding-top: 3rem;
+  }
+  
+  .divider {
+    margin-bottom: 3rem;
+  }
+  
+  .paper-header {
+    margin-bottom: 1.5rem;
+  }
+  
+  .paper-title {
+    font-size: 1.7rem;
+    margin-bottom: 0;
+    margin-right: 0.75rem;
+  }
+  
+  .paper-download {
+    width: 2rem;
+    height: 2rem;
+  }
+  
+  .paper-description {
+    font-size: 0.95rem;
+    margin-bottom: 3rem;
+    line-height: 1.6;
+  }
+  
+  .paper-links {
+    gap: 1.75rem;
+  }
+  
+  .paper-link {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .link-title, .link-url {
+    font-size: 0.95rem;
+  }
+} 

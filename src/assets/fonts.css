@@ -1,0 +1,24 @@
+/* Font definitions */
+@font-face {
+  font-family: 'TestSöhne';
+  src: url('/assets/fonts/TestSöhne/TestSöhne-Buch.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'TestSöhne';
+  src: url('/assets/fonts/TestSöhne/TestSöhne-Halbfett.otf') format('opentype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'TestSöhne';
+  src: url('/assets/fonts/TestSöhne/TestSöhne-Kräftig.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+} 
