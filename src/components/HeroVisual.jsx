@@ -9,6 +9,7 @@ export function HeroVisual() {
   const lastMouseRef = useRef({ x: 0.5, y: 0.5 }); // For interpolation
   const isMouseOverRef = useRef(false); // Track if mouse is over the canvas
   const actualMouseRef = useRef({ x: 0.5, y: 0.5 }); // Track actual mouse position
+  const mousePresenceRef = useRef(0.0); // Mouse presence factor (0 = absent, 1 = present)
   
   useEffect(() => {
     // Dynamically import Three.js to prevent it from blocking initial render
@@ -55,6 +56,7 @@ export function HeroVisual() {
             uniform vec2 uResolution;
             uniform vec2 uMouse;
             uniform float uTime;
+            uniform float uMousePresence;
             
             // Simple hash function for random values
             float hash(vec2 p) {
@@ -116,14 +118,11 @@ export function HeroVisual() {
             }
             
             // Smooth warp function
-            vec2 warp(vec2 uv, vec2 mouse, float time) {
+            vec2 warp(vec2 uv, vec2 mouse, float time, float mousePresence) {
               float dist = distance(uv, mouse);
               
               // Create a smooth falloff for the warping effect - fixed by using proper values
-              float influence = smoothstep(0.2, 0.0, dist);
-              
-              // Add automatic ambient warping when mouse is far away
-              float ambientStrength = smoothstep(0.0, 0.7, dist); // Inverse of influence
+              float influence = smoothstep(0.5, 0.0, dist);
               
               // Ambient warping - subtle flowing waves using multiple sine waves
               float ambientWaveX = sin(uv.y * 3.0 + time * 0.3) * cos(uv.x * 2.5 - time * 1.2) * 0.005;
@@ -133,7 +132,7 @@ export function HeroVisual() {
               // Mouse-based warping
               // Slow, gentle ripples
               float angle = atan(uv.y - mouse.y, uv.x - mouse.x);
-              float waveIntensity = 0.06 + 0.000003 * sin(time); // Slightly increased intensity
+              float waveIntensity = 0.01 + 0.002 * sin(time); // Slightly increased intensity
               
               // Create a smooth radial wave
               float radialWave = sin(dist * 10.0 - time * 0.08) * waveIntensity;
@@ -144,15 +143,15 @@ export function HeroVisual() {
                 sin(angle) * radialWave
               );
               
-              // Combine both warp effects with appropriate influence
-              return uv + mouseOffset * influence + ambientOffset * ambientStrength;
+              // Apply mouse presence factor to gradually fade mouse effect
+              return uv + mouseOffset * influence * mousePresence + ambientOffset;
             }
             
             void main() {
               vec2 uv = vUv;
               
               // Use smooth warping based on mouse position
-              uv = warp(uv, uMouse, uTime * 0.15); // Slowed down time factor
+              uv = warp(uv, uMouse, uTime * 0.15, uMousePresence); // Slowed down time factor
               
               // Pixelate the UV coordinates at a good resolution
               // but with different values for the main shape and the rest
@@ -179,7 +178,8 @@ export function HeroVisual() {
               containerRef.current.clientWidth * renderer.getPixelRatio(),
               containerRef.current.clientHeight * renderer.getPixelRatio()
             )},
-            uMouse: { value: new THREE.Vector2(0.5, 0.5) }
+            uMouse: { value: new THREE.Vector2(0.5, 0.5) },
+            uMousePresence: { value: 0.0 }
           }
         });
         
@@ -191,7 +191,7 @@ export function HeroVisual() {
         // Cache the bounding rect to avoid layout thrashing
         let containerRect = containerRef.current.getBoundingClientRect();
         
-        // Update cached bounds when resizing
+        // Update cached bounds when resizing or scrolling
         const updateBounds = () => {
           if (!containerRef.current) return;
           containerRect = containerRef.current.getBoundingClientRect();
@@ -199,8 +199,16 @@ export function HeroVisual() {
         
         // Handle both pointer and touch events with a common function
         const updateMousePosition = (clientX, clientY) => {
-          const normalizedX = (clientX - containerRect.left) / containerRect.width;
-          const normalizedY = 1.0 - (clientY - containerRect.top) / containerRect.height;
+          // Account for scrolling position to get correct coordinates
+          const scrollX = window.scrollX || window.pageXOffset;
+          const scrollY = window.scrollY || window.pageYOffset;
+          
+          // Calculate position relative to the element, accounting for scroll
+          const elementX = clientX - containerRect.left - scrollX + window.scrollX;
+          const elementY = clientY - containerRect.top - scrollY + window.scrollY;
+          
+          const normalizedX = elementX / containerRect.width;
+          const normalizedY = 1.0 - (elementY / containerRect.height);
           
           // Update actual mouse position always
           actualMouseRef.current.x = normalizedX;
@@ -241,7 +249,11 @@ export function HeroVisual() {
         // Handle mouse leaving the canvas - don't immediately reset
         const handlePointerLeave = () => {
           isMouseOverRef.current = false;
+          // Keep the last mouse position when leaving - no reset
         };
+        
+        // Add scroll event listener to update bounds when scrolling
+        window.addEventListener('scroll', updateBounds, { passive: true });
         
         // Add all event listeners
         containerRef.current.addEventListener('pointermove', handlePointerMove, { passive: false });
@@ -273,18 +285,27 @@ export function HeroVisual() {
         const animate = (time) => {
           if (!containerRef.current) return;
           
+          // Smoothly transition mouse presence factor
+          if (isMouseOverRef.current) {
+            mousePresenceRef.current += (1.0 - mousePresenceRef.current) * 0.1;
+          } else {
+            mousePresenceRef.current += (0.0 - mousePresenceRef.current) * 0.1;
+          }
+          
+          // Update shader uniform for mouse presence
+          shaderMaterial.uniforms.uMousePresence.value = mousePresenceRef.current;
+          
           if (isMouseOverRef.current) {
             // When mouse is over canvas, smoothly transition to actual mouse position
             lastMouseRef.current.x = actualMouseRef.current.x;
             lastMouseRef.current.y = actualMouseRef.current.y;
             
             // Fast interpolation for responsive feeling
-            mouseRef.current.x += (lastMouseRef.current.x - mouseRef.current.x) * 0.15;
-            mouseRef.current.y += (lastMouseRef.current.y - mouseRef.current.y) * 0.15;
+            mouseRef.current.x += (lastMouseRef.current.x - mouseRef.current.x) ;
+            mouseRef.current.y += (lastMouseRef.current.y - mouseRef.current.y) ;
           } else {
-            // Gradually move back to center when mouse isn't over canvas
-            mouseRef.current.x += (0.5 - mouseRef.current.x) * 0.03;
-            mouseRef.current.y += (0.5 - mouseRef.current.y) * 0.03;
+            // When mouse leaves, keep the last position but fade out the effect
+            // No need to move the position back to center
           }
           
           shaderMaterial.uniforms.uTime.value = time * 0.001;
@@ -300,6 +321,7 @@ export function HeroVisual() {
         return () => {
           cancelAnimationFrame(animationRef.current);
           window.removeEventListener('resize', handleResize);
+          window.removeEventListener('scroll', updateBounds);
           if (containerRef.current) {
             containerRef.current.removeEventListener('pointermove', handlePointerMove);
             containerRef.current.removeEventListener('touchmove', handleTouchMove);
