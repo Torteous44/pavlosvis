@@ -1,7 +1,7 @@
 .paper {
   padding: 4rem 0;
   color: #fff;
-  max-width: min(100%, 800px);
+  max-width: min(100%, 750px);
   margin-left: auto;
   margin-right: auto;
 }
@@ -24,7 +24,7 @@
 }
 
 .paper-title {
-  font-size: 2rem;
+  font-size: 1.8rem;
   font-weight: 400;
   color: #fff;
   letter-spacing: -0.01em;
@@ -36,8 +36,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 2.25rem;
+  height: 2.25rem;
   background-color: transparent;
   border-radius: 5px;
   color: #fff;
@@ -49,7 +49,7 @@
 }
 
 .paper-description {
-  font-size: 1rem;
+  font-size: 0.9rem;
   line-height: 1.65;
   margin-bottom: 4rem;
   color: rgba(255, 255, 255, 0.95);
@@ -73,18 +73,18 @@
 }
 
 .link-title {
-  font-size: 1rem;
+  font-size: 0.9rem;
   color: rgba(255, 255, 255, 0.95);
   font-weight: 400;
 }
 
 .link-url {
-  font-size: 1rem;
+  font-size: 0.9rem;
   color: rgba(255, 255, 255, 0.95);
   text-decoration: none;
   display: flex;
   align-items: center;
-  margin-right: rem;
+  margin-right: 0.5rem;
 }
 
 .arrow {

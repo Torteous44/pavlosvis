@@ -34,7 +34,10 @@ export function HeroVisual() {
         });
         renderer.setSize(containerRef.current.clientWidth, containerRef.current.clientHeight);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // Limit pixel ratio for performance
-        renderer.setClearColor(0x191919, 1); // Set background to #191919
+        
+        // Use precise hex values to match CSS background
+        const bgColor = new THREE.Color('#191919');
+        renderer.setClearColor(bgColor, 1);
         containerRef.current.appendChild(renderer.domElement);
         
         // Scene setup
@@ -125,8 +128,8 @@ export function HeroVisual() {
               float influence = smoothstep(0.5, 0.0, dist);
               
               // Ambient warping - subtle flowing waves using multiple sine waves
-              float ambientWaveX = sin(uv.y * 3.0 + time * 0.3) * cos(uv.x * 2.5 - time * 1.2) * 0.005;
-              float ambientWaveY = cos(uv.x * 2.7 + time * 0.4) * sin(uv.y * 3.5 + time * 1.3) * 0.005;
+              float ambientWaveX = sin(uv.y * 3.0 + time * 0.3) * cos(uv.x * 2.5 - time * 1.2) * 0.00075;
+              float ambientWaveY = cos(uv.x * 2.7 + time * 0.4) * sin(uv.y * 3.5 + time * 1.3) * 0.00075;
               vec2 ambientOffset = vec2(ambientWaveX, ambientWaveY);
               
               // Mouse-based warping
@@ -162,11 +165,11 @@ export function HeroVisual() {
               float shapeDist = sdfAngleBracket(pix_uv);
               float shape = smoothstep(0.02, -0.2, shapeDist);
               
-              vec3 bgColor = vec3(0.115, 0.115, 0.115); 
+              // Match exact app background color (#191919 = 25/255 = ~0.098)
+              vec3 bgColor = vec3(0.098, 0.098, 0.098);
               vec3 shapeColor = vec3(1.0, 1.0, 1.0); // White
               
               // Final color is a mix based on the shape SDF
-              // No particles included
               vec3 color = mix(bgColor, shapeColor, shape);
               
               gl_FragColor = vec4(color, 1.0);
@@ -353,7 +356,11 @@ export function HeroVisual() {
     <div 
       ref={containerRef} 
       className="hero-visual__container"
-      style={{ width: '100%', height: '100%' }}
+      style={{ 
+        width: '100%', 
+        height: '100%', 
+        backgroundColor: '#191919' // Explicitly set matching background color
+      }}
     />
   );
 } 

@@ -1,7 +1,7 @@
 .contact {
   padding: 4rem 0;
   color: #fff;
-  max-width: min(100%, 800px);
+  max-width: min(100%, 750px);
   margin-left: auto;
   margin-right: auto;
 }
@@ -11,7 +11,7 @@
 }
 
 .contact-title {
-  font-size: 2rem;
+  font-size: 1.8rem;
   font-weight: 400;
   color: #fff;
   letter-spacing: -0.01em;
@@ -19,7 +19,7 @@
 }
 
 .contact-description {
-  font-size: 1rem;
+  font-size: 0.9rem;
   line-height: 1.65;
   margin-bottom: 3rem;
   color: rgba(255, 255, 255, 0.95);
@@ -47,7 +47,7 @@
 }
 
 .profile-bio {
-  font-size: 1rem;
+  font-size: 0.9rem;
   line-height: 1.65;
   margin-bottom: 0.75rem;
   color: rgba(255, 255, 255, 0.95);
@@ -55,7 +55,7 @@
 }
 
 .profile-link {
-  font-size: 1rem;
+  font-size: 0.9rem;
   color: rgba(255, 255, 255, 0.95);
   text-decoration: none;
   display: inline-flex;
@@ -64,7 +64,7 @@
 
 .profile-link .arrow {
   margin-left: 0.5rem;
-  font-size: 1rem;
+  font-size: 0.9rem;
 }
 
 

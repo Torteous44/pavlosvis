@@ -1,6 +1,6 @@
 /* Content Section */
 .content {
-  max-width: min(100%, 800px);
+  max-width: min(100%, 750px);
   margin-left: auto;
   margin-right: auto;
 }
@@ -14,7 +14,7 @@
 }
 
 .content__title {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   line-height: 1.25;
   font-weight: 400;
   margin-bottom: 1rem;
@@ -23,7 +23,7 @@
 }
 
 .content__description {
-  font-size: 1rem;
+  font-size: 0.9rem;
   line-height: 1.65;
   margin-bottom: 2rem;
   color: rgba(255, 255, 255, 0.95);

@@ -20,13 +20,14 @@
   z-index: 2;
   max-width: 750px;
   margin-top: -5vh; /* Move content slightly higher */
-  padding-left: 10%;
+  padding-left: 14%;
   margin-right: auto;
   width: 100%;
 }
 
 .hero__title {
-  font-size: 2rem;
+  margin-top: 10vh;
+  font-size: 1.8rem;
   line-height: 1.1;
   font-weight: 400;
   margin-bottom: 2rem;
@@ -37,11 +38,11 @@
 .hero__cta {
   display: inline-flex;
   align-items: center;
-  padding: 0.3rem 2.75rem;
+  padding: 0.25rem 2.75rem;
   border: 1px solid rgba(255, 255, 255, 0.9);
   color: #fff;
   text-decoration: none;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   font-weight: 400;
   transition: all 0.3s ease;
 }
@@ -120,7 +121,7 @@
   }
   
   .hero__title {
-    font-size: 3.5rem;
+    font-size: 2rem;
   }
 }
 
@@ -144,7 +145,7 @@
   }
   
   .hero__title {
-    font-size: 3rem;
+    font-size: 2rem;
   }
   
   .hero__cta {
