@@ -7,6 +7,8 @@ export function HeroVisual() {
   const animationRef = useRef(null);
   const mouseRef = useRef({ x: 0.5, y: 0.5 }); // Store smoothed mouse position
   const lastMouseRef = useRef({ x: 0.5, y: 0.5 }); // For interpolation
+  const isMouseOverRef = useRef(false); // Track if mouse is over the canvas
+  const actualMouseRef = useRef({ x: 0.5, y: 0.5 }); // Track actual mouse position
   
   useEffect(() => {
     // Dynamically import Three.js to prevent it from blocking initial render
@@ -118,20 +120,20 @@ export function HeroVisual() {
               float dist = distance(uv, mouse);
               
               // Create a smooth falloff for the warping effect - fixed by using proper values
-              float influence = smoothstep(0.5, 0.0, dist);
+              float influence = smoothstep(0.2, 0.0, dist);
               
               // Add automatic ambient warping when mouse is far away
               float ambientStrength = smoothstep(0.0, 0.7, dist); // Inverse of influence
               
               // Ambient warping - subtle flowing waves using multiple sine waves
-              float ambientWaveX = sin(uv.y * 3.0 + time * 0.03) * cos(uv.x * 2.5 - time * 0.02) * 0.005;
-              float ambientWaveY = cos(uv.x * 2.7 + time * 0.04) * sin(uv.y * 3.5 + time * 0.03) * 0.005;
+              float ambientWaveX = sin(uv.y * 3.0 + time * 0.3) * cos(uv.x * 2.5 - time * 1.2) * 0.005;
+              float ambientWaveY = cos(uv.x * 2.7 + time * 0.4) * sin(uv.y * 3.5 + time * 1.3) * 0.005;
               vec2 ambientOffset = vec2(ambientWaveX, ambientWaveY);
               
               // Mouse-based warping
               // Slow, gentle ripples
               float angle = atan(uv.y - mouse.y, uv.x - mouse.x);
-              float waveIntensity = 0.012 + 0.003 * sin(time); // Slightly increased intensity
+              float waveIntensity = 0.06 + 0.000003 * sin(time); // Slightly increased intensity
               
               // Create a smooth radial wave
               float radialWave = sin(dist * 10.0 - time * 0.08) * waveIntensity;
@@ -197,8 +199,18 @@ export function HeroVisual() {
         
         // Handle both pointer and touch events with a common function
         const updateMousePosition = (clientX, clientY) => {
-          lastMouseRef.current.x = (clientX - containerRect.left) / containerRect.width;
-          lastMouseRef.current.y = 1.0 - (clientY - containerRect.top) / containerRect.height;
+          const normalizedX = (clientX - containerRect.left) / containerRect.width;
+          const normalizedY = 1.0 - (clientY - containerRect.top) / containerRect.height;
+          
+          // Update actual mouse position always
+          actualMouseRef.current.x = normalizedX;
+          actualMouseRef.current.y = normalizedY;
+          
+          // Only update target position directly if mouse is over
+          if (isMouseOverRef.current) {
+            lastMouseRef.current.x = normalizedX;
+            lastMouseRef.current.y = normalizedY;
+          }
         };
         
         // Mouse tracking with improved event handlers
@@ -215,9 +227,28 @@ export function HeroVisual() {
           }
         };
         
+        // Handle mouse hovering above the canvas even without movement
+        const handlePointerHover = (event) => {
+          updateMousePosition(event.clientX, event.clientY);
+        };
+        
+        // Handle mouse entering the canvas
+        const handlePointerEnter = (event) => {
+          isMouseOverRef.current = true;
+          updateMousePosition(event.clientX, event.clientY);
+        };
+        
+        // Handle mouse leaving the canvas - don't immediately reset
+        const handlePointerLeave = () => {
+          isMouseOverRef.current = false;
+        };
+        
         // Add all event listeners
         containerRef.current.addEventListener('pointermove', handlePointerMove, { passive: false });
         containerRef.current.addEventListener('touchmove', handleTouchMove, { passive: false });
+        containerRef.current.addEventListener('pointerleave', handlePointerLeave);
+        containerRef.current.addEventListener('pointerenter', handlePointerEnter);
+        containerRef.current.addEventListener('pointerhover', handlePointerHover);
         
         // Handle resize
         const handleResize = () => {
@@ -242,9 +273,19 @@ export function HeroVisual() {
         const animate = (time) => {
           if (!containerRef.current) return;
           
-          // Increase interpolation factor for more responsive movement (0.25 vs original 0.08)
-          mouseRef.current.x += (lastMouseRef.current.x - mouseRef.current.x) * 0.25;
-          mouseRef.current.y += (lastMouseRef.current.y - mouseRef.current.y) * 0.25;
+          if (isMouseOverRef.current) {
+            // When mouse is over canvas, smoothly transition to actual mouse position
+            lastMouseRef.current.x = actualMouseRef.current.x;
+            lastMouseRef.current.y = actualMouseRef.current.y;
+            
+            // Fast interpolation for responsive feeling
+            mouseRef.current.x += (lastMouseRef.current.x - mouseRef.current.x) * 0.15;
+            mouseRef.current.y += (lastMouseRef.current.y - mouseRef.current.y) * 0.15;
+          } else {
+            // Gradually move back to center when mouse isn't over canvas
+            mouseRef.current.x += (0.5 - mouseRef.current.x) * 0.03;
+            mouseRef.current.y += (0.5 - mouseRef.current.y) * 0.03;
+          }
           
           shaderMaterial.uniforms.uTime.value = time * 0.001;
           shaderMaterial.uniforms.uMouse.value.set(mouseRef.current.x, mouseRef.current.y);
@@ -262,6 +303,9 @@ export function HeroVisual() {
           if (containerRef.current) {
             containerRef.current.removeEventListener('pointermove', handlePointerMove);
             containerRef.current.removeEventListener('touchmove', handleTouchMove);
+            containerRef.current.removeEventListener('pointerleave', handlePointerLeave);
+            containerRef.current.removeEventListener('pointerenter', handlePointerEnter);
+            containerRef.current.removeEventListener('pointerhover', handlePointerHover);
           }
           renderer.dispose();
           geometry.dispose();
