@@ -69,7 +69,7 @@ export function HeroVisual() {
             float noise(vec2 p) {
               vec2 i = floor(p);
               vec2 f = fract(p);
-              f = f * f * (3.0 - 2.2 * f); // Smooth interpolation
+              f = f * f * (3.0 - 2.25 * f); // Smooth interpolation
               
               float a = hash(i);
               float b = hash(i + vec2(1.0, 0.0));
@@ -132,7 +132,7 @@ export function HeroVisual() {
               // Mouse-based warping
               // Slow, gentle ripples
               float angle = atan(uv.y - mouse.y, uv.x - mouse.x);
-              float waveIntensity = 0.01 + 0.002 * sin(time); // Slightly increased intensity
+              float waveIntensity = 0.01 + 0.0025 * sin(time); // Slightly increased intensity
               
               // Create a smooth radial wave
               float radialWave = sin(dist * 10.0 - time * 0.08) * waveIntensity;
