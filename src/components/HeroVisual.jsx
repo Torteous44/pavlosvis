@@ -34,10 +34,7 @@ export function HeroVisual() {
         });
         renderer.setSize(containerRef.current.clientWidth, containerRef.current.clientHeight);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // Limit pixel ratio for performance
-        
-        // Use precise hex values to match CSS background
-        const bgColor = new THREE.Color('#191919');
-        renderer.setClearColor(bgColor, 1);
+        renderer.setClearColor(0x191919, 1); // Set background to #191919
         containerRef.current.appendChild(renderer.domElement);
         
         // Scene setup
@@ -165,11 +162,11 @@ export function HeroVisual() {
               float shapeDist = sdfAngleBracket(pix_uv);
               float shape = smoothstep(0.02, -0.2, shapeDist);
               
-              // Match exact app background color (#191919 = 25/255 = ~0.098)
-              vec3 bgColor = vec3(0.098, 0.098, 0.098);
+              vec3 bgColor = vec3(0.115, 0.115, 0.115); 
               vec3 shapeColor = vec3(1.0, 1.0, 1.0); // White
               
               // Final color is a mix based on the shape SDF
+              // No particles included
               vec3 color = mix(bgColor, shapeColor, shape);
               
               gl_FragColor = vec4(color, 1.0);
@@ -356,11 +353,7 @@ export function HeroVisual() {
     <div 
       ref={containerRef} 
       className="hero-visual__container"
-      style={{ 
-        width: '100%', 
-        height: '100%', 
-        backgroundColor: '#191919' // Explicitly set matching background color
-      }}
+      style={{ width: '100%', height: '100%' }}
     />
   );
 } 
