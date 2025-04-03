@@ -34,7 +34,7 @@ export function HeroVisual() {
         });
         renderer.setSize(containerRef.current.clientWidth, containerRef.current.clientHeight);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // Limit pixel ratio for performance
-        renderer.setClearColor(0x191919, 1); // Set background to #191919
+        renderer.setClearColor(0x000000, 0); // Set transparent background
         containerRef.current.appendChild(renderer.domElement);
         
         // Scene setup
@@ -165,11 +165,10 @@ export function HeroVisual() {
               vec3 bgColor = vec3(0.1155, 0.1155, 0.1155); 
               vec3 shapeColor = vec3(1.0, 1.0, 1.0); // White
               
-              // Final color is a mix based on the shape SDF
-              // No particles included
+              // Final color is a mix based on the shape SDF with transparency
               vec3 color = mix(bgColor, shapeColor, shape);
-              
-              gl_FragColor = vec4(color, 1.0);
+              // Use shape as alpha channel - only show shape, background is transparent
+              gl_FragColor = vec4(color, shape);
             }
           `,
           uniforms: {
@@ -356,10 +355,10 @@ export function HeroVisual() {
       style={{ 
         width: '100%', 
         height: '100%', 
-        backgroundColor: '#191919', // Explicitly set matching background color
+        backgroundColor: 'transparent', // Make container background transparent
         clipPath: 'polygon(50% 0%, 0% 54%, 0% 55%, 40% 100%, 90% 100%, 100% 90%, 42% 30%, 70% 0%, 20% 0%)',
         borderRadius: '25px', // Add subtle rounding to any visible corners
-        boxShadow: 'inset 0 0 15px 15px rgba(25, 25, 25, 0.8)'
+
       }}
     />
   );
