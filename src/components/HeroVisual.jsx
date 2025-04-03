@@ -162,7 +162,7 @@ export function HeroVisual() {
               float shapeDist = sdfAngleBracket(pix_uv);
               float shape = smoothstep(0.02, -0.2, shapeDist);
               
-              vec3 bgColor = vec3(0.116, 0.116, 0.116); 
+              vec3 bgColor = vec3(0.1155, 0.1155, 0.1155); 
               vec3 shapeColor = vec3(1.0, 1.0, 1.0); // White
               
               // Final color is a mix based on the shape SDF
