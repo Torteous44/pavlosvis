@@ -37,8 +37,8 @@ export function Paper() {
           </div>
           <div className="paper-link">
             <span className="link-title">AI powered interview prep</span>
-            <a href="https://caseprepered.com" className="link-url" target="_blank" rel="noopener noreferrer">
-              caseprepered.com <span className="arrow">↗</span>
+            <a href="https://caseprepared.com" className="link-url" target="_blank" rel="noopener noreferrer">
+              caseprepared.com <span className="arrow">↗</span>
             </a>
           </div>
         </div>
