@@ -35,6 +35,12 @@ export function Paper() {
               thumbsy.xyz <span className="arrow">↗</span>
             </a>
           </div>
+          <div className="paper-link">
+            <span className="link-title">AI powered interview prep</span>
+            <a href="https://casepreperaed.com" className="link-url" target="_blank" rel="noopener noreferrer">
+              casepreperaed.com <span className="arrow">↗</span>
+            </a>
+          </div>
         </div>
       </div>
     </section>
