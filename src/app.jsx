@@ -14,7 +14,6 @@ export function App() {
         <main>
           <Content />
           <Paper />
-          <Contact />
         </main>
       </div>
     </>
